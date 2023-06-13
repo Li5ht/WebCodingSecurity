@@ -39,8 +39,7 @@ public class Date implements Cloneable {
     public void setDay(int day) {
         this.day = day;
     }
-
-    // 2번
+    
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
