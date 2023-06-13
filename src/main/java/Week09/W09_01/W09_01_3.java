@@ -7,6 +7,7 @@ import java.security.*;
 import java.util.Scanner;
 
 public class W09_01_3 {
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
 
         Scanner sc = new Scanner(System.in);

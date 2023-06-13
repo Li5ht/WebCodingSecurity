@@ -5,7 +5,7 @@ import java.security.*;
 import java.util.Scanner;
 
 public class W09_01_2 {
-    @SuppressWarnings("resource")
+    @SuppressWarnings({ "resource", "unused" })
 	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
 
         Scanner sc = new Scanner(System.in);
