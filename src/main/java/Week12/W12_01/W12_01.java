@@ -1,104 +1,66 @@
 package Week12.W12_01;
 
-import Week12.Game;
-import Week12.Score;
-
 import java.util.Scanner;
 
 public class W12_01 {
 
-    public static void main(String[] args) throws InvalidInputException {
-        Scanner s = new Scanner(System.in);
+	 private static int whoswin(String com, String you) {
+	        if (you.equals("가위")) {
+	            if (com.equals("가위")) {
+	                return 0; // 비김
+	            } else if (com.equals("바위")) {
+	                return -1; // 짐
+	            } else if (com.equals("보")) {
+	                return 1; // 이김
+	            }
+	        } else if (you.equals("바위")) {
+	            if (com.equals("가위")) {
+	                return 1; // 이김
+	            } else if (com.equals("바위")) {
+	                return 0; // 비김
+	            } else if (com.equals("보")) {
+	                return -1; // 짐
+	            }
+	        } else if (you.equals("보")) {
+	            if (com.equals("가위")) {
+	                return -1; // 짐
+	            } else if (com.equals("바위")) {
+	                return 1; // 이김
+	            } else if (com.equals("보")) {
+	                return 0; // 비김
+	            }
+	        }
+	        return 0; // 기본적으로 비김
+	    }
 
-        Game comInput = Game.randomGame();
-        String com = decode(comInput);
-        System.out.print("컴퓨터의 생성 : " + com);
-        System.out.println();
+	    private static String getInput(Scanner s) throws InvalidInputException {
+	        String input = s.nextLine();
+	        if (!input.equals("가위") && !input.equals("바위") && !input.equals("보")) {
+	            throw new InvalidInputException("잘못된 입력입니다.");
+	        }
+	        return input;
+	    }
 
-        String yourInput = getInput(s);
-        Game user = encode(yourInput);
+	    public static void main(String[] args) {
+	        Scanner scanner = new Scanner(System.in);
+	        String[] choices = {"가위", "바위", "보"};
+	        String com = choices[(int) (Math.random() * 3)]; // 컴퓨터의 선택
+	        String you;
 
-        Score rslt = whoswin(user, comInput);
-        if (rslt == Score.WIN) {
-            System.out.println("당신이 이겼습니다.");
-        } else if (rslt == Score.EQUAL) {
-            System.out.println("비겼습니다.");
-        } else if (rslt == Score.LOSE) {
-            System.out.println("컴퓨터가 이겼습니다.");
-        }
-
-        s.close();
-    }
-
-    private static String getInput(Scanner s) throws InvalidInputException {
-        System.out.print("당신의 입력 : ");
-        String yourInput = s.next();
-        Game user = encode(yourInput);
-
-        if (user != Game.ROCK && user != Game.PAPER && user != Game.SCISSORS) {
-            System.out.println("잘못된 입력입니다.");
-//            throw new InvalidInputException("잘못된 입력입니다.");
-            // 예외처리 공부하기.
-        }
-        return yourInput;
-    }
-
-    static String decode (Game game) {
-        if (game == Game.ROCK) {
-            return "바위";
-        } else if (game == Game.PAPER) {
-            return "보";
-        } else if (game == Game.SCISSORS) {
-            return "가위";
-        }
-        return null;
-    }
-
-    static Game encode (String str) {
-        if (str.equals("가위"))
-            return Game.SCISSORS;
-        else if (str.equals("바위"))
-            return Game.ROCK;
-        else if (str.equals("보"))
-            return Game.PAPER;
-        return null;
-    }
-
-    private static Score whoswin(Game user, Game com) {
-        if (user == Game.ROCK) {
-            if (com == Game.SCISSORS) {
-                return Score.WIN;
-            } else if (com == Game.ROCK) {
-                return Score.EQUAL;
-            } else if (com == Game.PAPER) {
-                return Score.LOSE;
-            }
-        } else if (user == Game.PAPER) {
-            if (com == Game.SCISSORS) {
-                return Score.LOSE;
-            } else if (com == Game.ROCK) {
-                return Score.WIN;
-            } else if (com == Game.PAPER) {
-                return Score.EQUAL;
-            }
-        } else if (user == Game.SCISSORS) {
-            if (com == Game.SCISSORS) {
-                return Score.EQUAL;
-            } else if (com == Game.ROCK) {
-                return Score.LOSE;
-            } else if (com == Game.PAPER) {
-                return Score.WIN;
-            }
-        }
-        return Score.ERROR;
-
-    }
-
-    @SuppressWarnings("serial")
-	private static class InvalidInputException extends Exception {
-
-        public InvalidInputException(String message) {
-            super(message);
-        }
-    }
+	        System.out.println("컴퓨터의 생성: " + com);
+	        System.out.print("당신의 입력: ");
+	        try {
+	            you = getInput(scanner);
+	            int result = whoswin(com, you);
+	            if (result == 1) {
+	                System.out.println("당신이 이겼습니다.");
+	            } else if (result == 0) {
+	                System.out.println("비겼습니다.");
+	            } else {
+	                System.out.println("당신이 졌습니다.");
+	            }
+	        } catch (InvalidInputException e) {
+	            System.out.println(e.getMessage());
+	        }
+	    }
 }
